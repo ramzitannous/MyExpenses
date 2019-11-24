@@ -1,0 +1,32 @@
+import * as React from "react"
+import { View, ViewStyle, Text } from "react-native"
+
+export interface <%= props.pascalName %>Props {
+
+  /**
+   * The text to display if not using `tx` or nested components.
+   */
+  text?: string
+
+  /**
+   * An optional style override useful for padding & margin.
+   */
+  style?: ViewStyle
+}
+
+/**
+ * Stateless functional component for your needs
+ *
+ * Component description here for TypeScript tips.
+ */
+export function <%= props.pascalName %>(props: <%= props.pascalName %>Props) {
+  // grab the props
+  const { text, style, ...rest } = props
+  const textStyle = { }
+
+  return (
+    <View style={style} {...rest}>
+      <Text text={text} style={textStyle} />
+    </View>
+  )
+}

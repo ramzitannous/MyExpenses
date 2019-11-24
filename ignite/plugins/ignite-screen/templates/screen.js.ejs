@@ -1,0 +1,19 @@
+import * as React from "react"
+import { observer, useLocalStore } from "mobx-react"
+import { NavigationStackScreenProps } from "react-navigation-stack"
+import styles from "./<%= props.styleName %>"
+import { View } from "react-native";
+import { <%= props.pascalName %>Store } from "./<%= props.storeName %>"
+
+
+export interface <%= props.pascalName %>Props extends NavigationStackScreenProps<{}> {
+}
+
+
+export const <%= props.pascalName %>: React.FunctionComponent<<%= props.pascalName %>Props> = observer((props) => {
+  const <%= props.camelName %>Store = useLocalStore(() => new <%= props.pascalName %>Store())
+  return (
+    <View style={styles.root}>
+    </View>
+  )
+})

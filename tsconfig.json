@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "outDir": "out",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "target": "es2015",
+    "lib": ["es6"],
+    "skipLibCheck": true,
+    "baseUrl": "./app",
+    "paths": {
+      "@assets": ["assets/index"]  ,
+      "@components/*": ["components/*"],
+      "@i18n": ["i18n/index"],
+      "@navigation": ["navigation/index"],
+      "@screens/*": ["screens/*"],
+      "@models/*": ["models/*"],
+      "@api": ["services/api/index"],
+      "@services/*": ["services/*"],
+      "@stores/*": ["stores/*"],
+      "@theme": ["theme/index"],
+      "@utils/*": ["utils/*"],
+      "@storage": ["utils/storage/index"],
+      "@environment": ["environment"]
+    }
+
+  },
+  "exclude": ["node_modules"],
+  "include": ["app", "test", "**/*.ts", "**/*.tsx", "./src/**/*"]
+}
