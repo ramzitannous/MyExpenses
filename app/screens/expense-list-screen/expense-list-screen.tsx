@@ -22,6 +22,7 @@ export const ExpenseListScreen: React.FunctionComponent<ExpenseListScreenProps> 
       <View style={GlobalStyles.root}>
         <Button
           style={styles.addBtn}
+          buttonStyle={styles.addBtn}
           type={"solid"}
           icon={{ name: "add", type: "material" }}
           onPress={navToAdd}

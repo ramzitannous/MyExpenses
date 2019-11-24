@@ -34,7 +34,6 @@ export const AddExpenseScreen: React.FunctionComponent<AddExpenseScreenProps> = 
       keyboardShouldPersistTaps={"always"}
       keyboardDismissMode={"on-drag"}
     >
-      <Text style={styles.title}>{"Add Expense"}</Text>
       <Input
         label={"Value"}
         keyboardType={"numeric"}

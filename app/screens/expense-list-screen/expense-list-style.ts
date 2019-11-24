@@ -3,12 +3,13 @@ import { color } from "@theme"
 
 const styles = StyleSheet.create({
   addBtn: {
+    borderRadius: 30,
     backgroundColor: color.primary,
-    bottom: 10,
-    height: 56,
+    top: 10,
+    height: 60,
     position: "absolute",
     right: 10,
-    width: 56,
+    width: 60,
   },
 })
 

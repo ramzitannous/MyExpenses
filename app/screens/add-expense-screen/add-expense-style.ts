@@ -10,11 +10,6 @@ const styles = StyleSheet.create({
     backgroundColor: color.palette.white,
     flexDirection: "column",
   },
-  title: {
-    color: color.palette.black,
-    fontSize: 18,
-    textAlign: "center",
-  },
 })
 
 export default styles
