@@ -3,13 +3,29 @@ import { color } from "@theme"
 
 const styles = StyleSheet.create({
   addBtn: {
-    borderRadius: 30,
     backgroundColor: color.primary,
-    top: 10,
+    borderRadius: 30,
+    bottom: 30,
     height: 60,
     position: "absolute",
-    right: 10,
+    right: 30,
     width: 60,
+  },
+  calender: {
+    height: 100,
+    paddingBottom: 10,
+    paddingTop: 20,
+  },
+  calenderHighlighted: {
+    color: color.calenderHighlightedText,
+  },
+  calenderTextColor: {
+    color: color.calenderDefault,
+  },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    position: "relative",
   },
 })
 

@@ -1,14 +1,14 @@
 import { ApisauceInstance, create } from "apisauce"
 import { ApiConfig } from "./api-config"
-import { t } from "@i18n"
 import { getGeneralApiProblem } from "@services/api/api-problem"
 import { showError, showSnackbar } from "@utils/helpers"
+import { CurrencyRateResponse } from "@models/fixer"
 
 /**
  * Manages all requests to the API.
  */
 export class Api {
-  bypassSnackbarUrl: RegExp[] = [];
+  bypassSnackbarUrl: RegExp[] = []
 
   /**
    * The underlying apisauce instance which performs the requests.
@@ -41,7 +41,6 @@ export class Api {
     this.apisauce = create({
       baseURL: this.config.url,
       timeout: this.config.timeout,
-      auth: { username: this.config.auth.username, password: this.config.auth.password },
       headers: {
         Accept: "application/json",
       },
@@ -58,7 +57,7 @@ export class Api {
         console.log(
           `call success to ${response.config.url} with data: ${JSON.stringify(
             response.config.data,
-          )}`,
+          )} \n Response: ${JSON.stringify(response.data)}`,
         )
       }
       if (
@@ -68,7 +67,7 @@ export class Api {
         !("page" in response.config.params) &&
         !this.bypassSnackbarUrl.some(value => value.test(response.config.url))
       ) {
-        showSnackbar(t("successMsg"))
+        showSnackbar("Operation Success")
       } else if (!response.ok) {
         console.error(
           `Error While calling ${response.config.url} \n status code: ${
@@ -76,8 +75,16 @@ export class Api {
           } \n with body: ${JSON.stringify(response.config.data)} `,
         )
         const problem = getGeneralApiProblem(response)
-        showError(problem ? problem.kind : t("errorMsg"))
+        showError(problem ? problem.kind : "General Error Occurred")
       }
     })
+  }
+
+  public async getCurrencyRates(baseCurrency: string) {
+    const res = await this.apisauce.get<CurrencyRateResponse>("/", {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      base: baseCurrency,
+    })
+    return res.data
   }
 }

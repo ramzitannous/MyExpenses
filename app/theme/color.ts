@@ -27,11 +27,11 @@ export const color = {
   /**
    * The main tinting color.
    */
-  primary: palette.orange,
+  primary: palette.green,
   /**
    * The main tinting color, but darker.
    */
-  primaryDarker: palette.orangeDarker,
+  primaryDarker: palette.greenDarker,
   /**
    * A subtle color used for borders and lines.
    */
@@ -49,7 +49,13 @@ export const color = {
    */
   error: palette.angry,
 
-  menu: palette.black,
+  menu: palette.white,
 
-  header: palette.orange,
+  header: palette.green,
+
+  calenderHighlightedText: palette.black,
+
+  calenderHighlightedBackground: palette.lightGrey,
+
+  calenderDefault: palette.white,
 }

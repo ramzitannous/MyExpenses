@@ -1,35 +1,39 @@
-import React, { useMemo } from "react"
-import { observer, useLocalStore } from "mobx-react"
+import React, { useLayoutEffect } from "react"
+import { observer } from "mobx-react"
 import { NavigationStackScreenProps } from "react-navigation-stack"
-import { Picker, ScrollView, View } from "react-native"
-import { AddExpenseScreenStore } from "./add-expense-store"
-import { GlobalStyles } from "@theme"
-import { Button, Input, Text } from "react-native-elements"
-import styles from "@screens/add-expense-screen/add-expense-style"
+import { ScrollView } from "react-native"
+import { color, GlobalStyles } from "@theme"
+import { Button, Icon, Input } from "react-native-elements"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import { Currency } from "@models/currency"
+import { useStores } from "@stores/root-store"
+import { CurrencyModal } from "@components/currency-modal"
+import styles from "@screens/add-expense-screen/add-expense-style"
 
 export interface AddExpenseScreenProps extends NavigationStackScreenProps<{}> {}
 
-export const AddExpenseScreen: React.FunctionComponent<AddExpenseScreenProps> = observer(props => {
-  const addExpenseStore = useLocalStore(() => new AddExpenseScreenStore())
+export const AddExpenseScreen: React.FunctionComponent<AddExpenseScreenProps> = observer(() => {
+  const { appStore, settingsStore } = useStores()
+
+  useLayoutEffect(() => {
+    appStore.changeExpense({ currency: settingsStore.selectedCurrency.code })
+  }, [])
 
   const changeDate = newDate => {
-    addExpenseStore.changeExpense({ date: newDate })
-    addExpenseStore.showDatePicker(false)
+    appStore.showDatePicker(false)
+    appStore.changeDate(newDate)
   }
 
-  const currencies = useMemo(
-    () => Object.keys(Currency).map(curr => <Picker.Item key={curr} label={curr} value={curr} />),
-    [],
-  )
-
-  const save = () => {
-    addExpenseStore.saveExpense()
+  const changeValue = (value: string) => {
+    if (value && value.length > 0) {
+      appStore.changeExpense({ value: Number(value) })
+    } else {
+      appStore.changeExpense({ value: Number(0) })
+    }
   }
 
   return (
     <ScrollView
+      style={styles.scrollView}
       contentContainerStyle={GlobalStyles.root}
       keyboardShouldPersistTaps={"always"}
       keyboardDismissMode={"on-drag"}
@@ -38,46 +42,53 @@ export const AddExpenseScreen: React.FunctionComponent<AddExpenseScreenProps> = 
         label={"Value"}
         keyboardType={"numeric"}
         leftIcon={{ name: "attach-money", type: "material" }}
-        value={`${addExpenseStore.expense.value}`}
-        onChangeText={text => addExpenseStore.changeExpense({ value: text })}
+        value={`${appStore.expense.value}`}
+        onChangeText={changeValue}
       />
 
       <Input
         label={"Note"}
         keyboardType={"default"}
-        leftIcon={{ name: "attach-money", type: "material" }}
-        value={addExpenseStore.expense.note}
-        onChangeText={text => addExpenseStore.changeExpense({ note: text })}
+        leftIcon={{ name: "event-note", type: "material" }}
+        value={appStore.expense.note}
+        onChangeText={text => appStore.changeExpense({ note: text })}
       />
 
-      <View style={styles.dateContainer}>
-        <Text>{addExpenseStore.expense.date.toString()}</Text>
-        <Button
-          type={"clear"}
-          onPress={() => addExpenseStore.showDatePicker(true)}
-          icon={{ type: "material", name: "date-range" }}
-        />
-      </View>
+      <Input
+        label={"Date"}
+        editable={false}
+        value={appStore.selectedDateStr}
+        rightIcon={
+          <Icon
+            type={"material"}
+            name={"date-range"}
+            onPress={() => appStore.showDatePicker(true)}
+          />
+        }
+      />
 
-      {addExpenseStore.showDate && (
+      {appStore.showDate && (
         <DateTimePicker
           mode={"date"}
-          value={addExpenseStore.expense.date}
-          onChange={(event, date) => changeDate(date)}
+          value={appStore.selectedDate}
+          onChange={(event, date) =>
+            event.type === "dismissed" ? appStore.showDatePicker(false) : changeDate(date)
+          }
         />
       )}
 
-      <View>
-        <Text>{"Currency"}</Text>
-        <Picker
-          selectedValue={addExpenseStore.expense.currency}
-          onValueChange={itemValue => addExpenseStore.changeExpense({ currency: itemValue })}
-        >
-          {currencies}
-        </Picker>
-      </View>
+      <CurrencyModal
+        selectedCurrency={settingsStore.selectedCurrency}
+        onSelectCurrency={currency => appStore.changeExpense({ currency: currency.code })}
+      />
 
-      <Button title={"save"} icon={{ name: "save", type: "material" }} onPress={save} />
+      <Button
+        disabled={appStore.isSaveDisabled || appStore.saveDisabled}
+        buttonStyle={{ backgroundColor: color.palette.green }}
+        title={"save"}
+        icon={{ name: "save", type: "material" }}
+        onPress={() => appStore.saveExpense(appStore.expense)}
+      />
     </ScrollView>
   )
 })

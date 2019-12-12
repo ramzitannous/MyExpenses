@@ -40,7 +40,7 @@ export const ProgressLayout = React.memo(
 
     return <React.Fragment>{children}</React.Fragment>
   },
-  (prevProps, nextProps) => prevProps === nextProps,
+  (prevProps, nextProps) => prevProps.isLoading === nextProps.isLoading,
 )
 
 ProgressLayout.displayName = "ProgressLayout"

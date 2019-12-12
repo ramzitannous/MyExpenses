@@ -12,7 +12,7 @@ export class ApiFactory {
     const env = getEnv()
     const config: ApiConfig = {
       url: env.API_URL,
-      auth: { username: env.USERNAME, password: env.PASSWORD },
+      auth: env.API_KEY,
       timeout: 60 * 1000,
     }
     const api = new Api(config)

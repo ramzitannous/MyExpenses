@@ -9,3 +9,5 @@
 // It's easier just to leave it here.
 
 import "./app/app.tsx"
+import 'moment';
+import 'moment/locale/en-gb';  // language must match config

@@ -10,7 +10,7 @@ import Snackbar from "react-native-snackbar"
 import { color } from "@theme"
 import { decode, encode } from "base-64"
 import { Splash } from "@components/splash"
-import AppContainer from './navigation';
+import AppContainer from "./navigation"
 
 /**
  * Ignore some yellowbox warnings. Some of these are for deprecated functions
@@ -73,12 +73,11 @@ export const App: React.FunctionComponent<{}> = () => {
   const [isSettingsLoaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    rootStore.appStore.loadAppSettings().then(() => {
-      const id = setTimeout(() => {
-        clearTimeout(id)
-        setLoaded(true)
-      }, SPLASH_DELAY)
-    })
+    rootStore.settingsStore.loadAppSettings().then(() => setLoaded(true))
+    // const id = setTimeout(() => {
+    //   clearTimeout(id)
+    //   setLoaded(true)
+    // }, SPLASH_DELAY)
   }, [])
 
   useEffect(() => {
@@ -103,11 +102,10 @@ export const App: React.FunctionComponent<{}> = () => {
   // otherwise, we're ready to render the app
   return (
     <RootStoreProvider value={rootStore}>
-      <AppContainer></AppContainer>
+      <AppContainer />
     </RootStoreProvider>
   )
 }
-
 
 /**
  * This needs to match what's found in your app_delegate.m and MainActivity.java.

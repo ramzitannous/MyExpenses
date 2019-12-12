@@ -12,8 +12,8 @@ export const GlobalStyles = StyleSheet.create({
   },
   root: {
     backgroundColor: color.palette.white,
-    flex: 1,
     flexDirection: "column",
+    flexGrow: 1,
     padding: WIDTH * 0.1,
   },
 })
