@@ -1,4 +1,4 @@
-# RN Template
+# My Expenses React Native App
 
 ## The latest and greatest boilerplate
 
